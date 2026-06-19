@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/assets/social-preview.png" alt="ApkBugFinder — OWASP MASVS Android Security Scanner" width="100%" />
+<img src="https://raw.githubusercontent.com/alexbieber/ApkBugFinder/main/docs/assets/social-preview.png" alt="ApkBugFinder — OWASP MASVS Android Security Scanner" width="100%" />
 
 # ApkBugFinder
 
@@ -54,7 +54,7 @@ No Linux-only CLI. No unreadable logs. No guesswork.
 ### Homepage — drag, drop, scan
 
 <p align="center">
-  <img src="docs/screenshots/01-homepage.png" alt="ApkBugFinder homepage with APK upload zone and scanner status" width="90%" />
+  <img src="https://raw.githubusercontent.com/alexbieber/ApkBugFinder/main/docs/screenshots/01-homepage.png" alt="ApkBugFinder homepage with APK upload zone and scanner status" width="90%" />
 </p>
 
 <p align="center"><em>Clean upload interface with live scanner health indicator — full JADX engine or client fallback.</em></p>
@@ -62,7 +62,7 @@ No Linux-only CLI. No unreadable logs. No guesswork.
 ### Findings dashboard — severity at a glance
 
 <p align="center">
-  <img src="docs/screenshots/02-scan-dashboard.png" alt="ApkBugFinder scan dashboard showing 44 findings with severity breakdown" width="90%" />
+  <img src="https://raw.githubusercontent.com/alexbieber/ApkBugFinder/main/docs/screenshots/02-scan-dashboard.png" alt="ApkBugFinder scan dashboard showing 44 findings with severity breakdown" width="90%" />
 </p>
 
 <p align="center"><em>Real scan of OWASP InsecureBankv2 — 44 findings categorized Critical → Info with MASVS mapping.</em></p>
@@ -70,7 +70,7 @@ No Linux-only CLI. No unreadable logs. No guesswork.
 ### Finding detail — evidence + remediation
 
 <p align="center">
-  <img src="docs/screenshots/03-finding-detail.png" alt="Expanded finding showing debuggable flag evidence and MASVS remediation link" width="90%" />
+  <img src="https://raw.githubusercontent.com/alexbieber/ApkBugFinder/main/docs/screenshots/03-finding-detail.png" alt="Expanded finding showing debuggable flag evidence and MASVS remediation link" width="90%" />
 </p>
 
 <p align="center"><em>Every finding includes file location, code evidence, CWE reference, and one-click MASVS docs.</em></p>
@@ -82,7 +82,7 @@ No Linux-only CLI. No unreadable logs. No guesswork.
 Real scan results from **[InsecureBankv2](https://github.com/dineshshetty/Android-InsecureBankv2)** (OWASP training APK):
 
 <p align="center">
-  <img src="docs/assets/severity-chart.svg" alt="Bar chart: 1 Critical, 10 High, 18 Medium, 9 Low, 6 Info findings" width="85%" />
+  <img src="https://raw.githubusercontent.com/alexbieber/ApkBugFinder/main/docs/assets/severity-chart.png" alt="Bar chart: 1 Critical, 10 High, 18 Medium, 9 Low, 6 Info findings" width="85%" />
 </p>
 
 <table align="center">
@@ -98,7 +98,7 @@ Real scan results from **[InsecureBankv2](https://github.com/dineshshetty/Androi
 ### MASVS category breakdown
 
 <p align="center">
-  <img src="docs/assets/masvs-coverage.svg" alt="Horizontal bar chart showing findings across MASVS V2-V8 categories" width="85%" />
+  <img src="https://raw.githubusercontent.com/alexbieber/ApkBugFinder/main/docs/assets/masvs-coverage.png" alt="Horizontal bar chart showing findings across MASVS V2-V8 categories" width="85%" />
 </p>
 
 ---
@@ -106,7 +106,7 @@ Real scan results from **[InsecureBankv2](https://github.com/dineshshetty/Androi
 ## How it works
 
 <p align="center">
-  <img src="docs/assets/architecture.svg" alt="Architecture diagram: User uploads APK to Next.js UI, Go scanner runs dex2jar and JADX, returns MASVS report" width="90%" />
+  <img src="https://raw.githubusercontent.com/alexbieber/ApkBugFinder/main/docs/assets/architecture.png" alt="Architecture diagram: User uploads APK to Next.js UI, Go scanner runs dex2jar and JADX, returns MASVS report" width="90%" />
 </p>
 
 ```
@@ -149,7 +149,7 @@ Real scan results from **[InsecureBankv2](https://github.com/dineshshetty/Androi
 ### ApkBugFinder vs APKHunt
 
 <p align="center">
-  <img src="docs/assets/comparison-chart.svg" alt="Comparison chart: ApkBugFinder scores higher on Web UI, Export/API, macOS support, and secret detection" width="85%" />
+  <img src="https://raw.githubusercontent.com/alexbieber/ApkBugFinder/main/docs/assets/comparison-chart.png" alt="Comparison chart: ApkBugFinder scores higher on Web UI, Export/API, macOS support, and secret detection" width="85%" />
 </p>
 
 | | [APKHunt](https://github.com/Cyber-Buddy/APKHunt) | **ApkBugFinder** |
@@ -311,7 +311,7 @@ ApkBugFinder/
 1. **Star the repo** — helps others discover ApkBugFinder
 2. **Report bugs** — [GitHub Issues](https://github.com/alexbieber/ApkBugFinder/issues)
 3. **Add MASVS rules** — edit `scanner/internal/rules/rules.go`
-4. **Refresh screenshots** — `npm run screenshots`
+4. **Refresh screenshots** — `npm run screenshots && npm run assets:png`
 
 ---
 

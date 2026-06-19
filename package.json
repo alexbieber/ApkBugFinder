@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "screenshots": "node scripts/capture-screenshots.js"
+    "screenshots": "node scripts/capture-screenshots.js",
+    "assets:png": "node scripts/convert-svg-to-png.js"
   },
   "dependencies": {
     "clsx": "^2.1.1",
