@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="ApkBugFinder banner">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#09090b"/>
+      <stop offset="50%" stop-color="#0f1f1a"/>
+      <stop offset="100%" stop-color="#09090b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#2dd4bf"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="980" cy="120" r="180" fill="#10b981" opacity="0.08"/>
+  <circle cx="200" cy="520" r="140" fill="#10b981" opacity="0.06"/>
+
+  <!-- Phone mock -->
+  <rect x="780" y="110" width="280" height="420" rx="28" fill="#18181b" stroke="#3f3f46" stroke-width="2"/>
+  <rect x="800" y="150" width="240" height="340" rx="8" fill="#09090b"/>
+  <rect x="820" y="175" width="90" height="10" rx="5" fill="#ef4444" opacity="0.9"/>
+  <rect x="820" y="200" width="140" height="8" rx="4" fill="#3f3f46"/>
+  <rect x="820" y="225" width="200" height="48" rx="8" fill="#14532d" stroke="#10b981" stroke-width="1"/>
+  <rect x="830" y="238" width="70" height="8" rx="4" fill="#34d399"/>
+  <rect x="830" y="252" width="160" height="6" rx="3" fill="#52525b"/>
+  <rect x="820" y="290" width="200" height="48" rx="8" fill="#1c1917" stroke="#f97316" stroke-width="1"/>
+  <rect x="830" y="303" width="90" height="8" rx="4" fill="#fb923c"/>
+  <rect x="820" y="355" width="200" height="48" rx="8" fill="#1c1917" stroke="#eab308" stroke-width="1"/>
+  <rect x="830" y="368" width="110" height="8" rx="4" fill="#facc15"/>
+  <text x="870" y="132" fill="#71717a" font-family="system-ui,sans-serif" font-size="11" text-anchor="middle">APK Scan Report</text>
+
+  <!-- Title -->
+  <text x="80" y="180" fill="url(#accent)" font-family="system-ui,sans-serif" font-size="22" font-weight="600">ApkBugFinder</text>
+  <text x="80" y="250" fill="#fafafa" font-family="system-ui,sans-serif" font-size="52" font-weight="700">Drop an APK.</text>
+  <text x="80" y="315" fill="#fafafa" font-family="system-ui,sans-serif" font-size="52" font-weight="700">Get security answers.</text>
+  <text x="80" y="380" fill="#a1a1aa" font-family="system-ui,sans-serif" font-size="22">OWASP MASVS static analysis with JADX + 70+ rules</text>
+
+  <!-- Stats pills -->
+  <g transform="translate(80,420)">
+    <rect width="130" height="44" rx="22" fill="#10b981" opacity="0.15" stroke="#10b981" stroke-opacity="0.4"/>
+    <text x="65" y="28" fill="#34d399" font-family="system-ui,sans-serif" font-size="16" font-weight="600" text-anchor="middle">70+ Rules</text>
+  </g>
+  <g transform="translate(230,420)">
+    <rect width="150" height="44" rx="22" fill="#10b981" opacity="0.15" stroke="#10b981" stroke-opacity="0.4"/>
+    <text x="75" y="28" fill="#34d399" font-family="system-ui,sans-serif" font-size="16" font-weight="600" text-anchor="middle">~16s Scans</text>
+  </g>
+  <g transform="translate(400,420)">
+    <rect width="180" height="44" rx="22" fill="#10b981" opacity="0.15" stroke="#10b981" stroke-opacity="0.4"/>
+    <text x="90" y="28" fill="#34d399" font-family="system-ui,sans-serif" font-size="16" font-weight="600" text-anchor="middle">MASVS + CWE</text>
+  </g>
+
+  <!-- Flow -->
+  <g transform="translate(80,510)" fill="#71717a" font-family="system-ui,sans-serif" font-size="14">
+    <text x="0" y="0">=ñ Upload</text>
+    <text x="95" y="0">’</text>
+    <text x="120" y="0">™ JADX</text>
+    <text x="195" y="0">’</text>
+    <text x="220" y="0">= MASVS</text>
+    <text x="310" y="0">’</text>
+    <text x="335" y="0">=Ê Report</text>
+  </g>
+</svg>

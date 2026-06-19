@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" role="img" aria-label="MASVS category coverage">
+  <rect width="960" height="420" rx="16" fill="#09090b" stroke="#27272a"/>
+  <text x="40" y="45" fill="#fafafa" font-family="system-ui,sans-serif" font-size="22" font-weight="700">MASVS Category Coverage</text>
+  <text x="40" y="72" fill="#71717a" font-family="system-ui,sans-serif" font-size="14">Findings mapped across OWASP Mobile Security Verification Standard</text>
+
+  <!-- Horizontal bars -->
+  <g font-family="system-ui,sans-serif" font-size="13">
+    <text x="40" y="115" fill="#a1a1aa">V2 Storage</text>
+    <rect x="180" y="100" width="520" height="18" rx="9" fill="#27272a"/>
+    <rect x="180" y="100" width="390" height="18" rx="9" fill="#10b981"/>
+    <text x="720" y="115" fill="#34d399" font-weight="600">12</text>
+
+    <text x="40" y="155" fill="#a1a1aa">V3 Crypto</text>
+    <rect x="180" y="140" width="520" height="18" rx="9" fill="#27272a"/>
+    <rect x="180" y="140" width="260" height="18" rx="9" fill="#14b8a6"/>
+    <text x="720" y="155" fill="#34d399" font-weight="600">8</text>
+
+    <text x="40" y="195" fill="#a1a1aa">V5 Network</text>
+    <rect x="180" y="180" width="520" height="18" rx="9" fill="#27272a"/>
+    <rect x="180" y="180" width="195" height="18" rx="9" fill="#06b6d4"/>
+    <text x="720" y="195" fill="#34d399" font-weight="600">6</text>
+
+    <text x="40" y="235" fill="#a1a1aa">V6 Platform</text>
+    <rect x="180" y="220" width="520" height="18" rx="9" fill="#27272a"/>
+    <rect x="180" y="220" width="455" height="18" rx="9" fill="#22d3ee"/>
+    <text x="720" y="235" fill="#34d399" font-weight="600">14</text>
+
+    <text x="40" y="275" fill="#a1a1aa">V7 Code</text>
+    <rect x="180" y="260" width="520" height="18" rx="9" fill="#27272a"/>
+    <rect x="180" y="260" width="130" height="18" rx="9" fill="#67e8f9"/>
+    <text x="720" y="275" fill="#34d399" font-weight="600">4</text>
+
+    <text x="40" y="315" fill="#a1a1aa">V8 Resilience</text>
+    <rect x="180" y="300" width="520" height="18" rx="9" fill="#27272a"/>
+    <rect x="180" y="300" width="162" height="18" rx="9" fill="#a5f3fc"/>
+    <text x="720" y="315" fill="#34d399" font-weight="600">5</text>
+  </g>
+
+  <rect x="40" y="350" width="880" height="48" rx="8" fill="#14532d" opacity="0.2" stroke="#10b981" stroke-opacity="0.3"/>
+  <text x="480" y="380" fill="#34d399" font-family="system-ui,sans-serif" font-size="14" font-weight="600" text-anchor="middle">70+ automated rules · V1V8 MASVS · MSTG-mapped findings</text>
+</svg>
