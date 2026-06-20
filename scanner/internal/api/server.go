@@ -17,6 +17,9 @@ import (
 type Server struct {
 	Addr    string
 	WorkDir string
+	// AllowVerify gates opt-in, read-only secret liveness checks server-side.
+	// Even when a request asks for verification, it only runs if this is true.
+	AllowVerify bool
 }
 
 func (s *Server) Handler() http.Handler {
@@ -37,10 +40,11 @@ func (s *Server) handleHealth(w http.ResponseWriter, r *http.Request) {
 		missing = []string{err.Error()}
 	}
 	writeJSON(w, code, map[string]any{
-		"status":  status,
-		"engine":  "apkbugfinder-scanner",
-		"version": "1.0.0",
-		"missing": missing,
+		"status":      status,
+		"engine":      "apkbugfinder-scanner",
+		"version":     "4.0.0",
+		"missing":     missing,
+		"verifyAllowed": s.AllowVerify,
 	})
 }
 
@@ -89,7 +93,14 @@ func (s *Server) handleScan(w http.ResponseWriter, r *http.Request) {
 	out.Close()
 	defer os.Remove(apkPath)
 
-	result, err := engine.Scan(apkPath, engine.Options{WorkDir: workDir})
+	// Verification only runs when both the request asks for it AND the server allows it.
+	verifyRequested := r.FormValue("verify") == "true"
+	doVerify := verifyRequested && s.AllowVerify
+
+	result, err := engine.Scan(apkPath, engine.Options{
+		WorkDir:       workDir,
+		VerifySecrets: doVerify,
+	})
 	if err != nil {
 		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
 		return

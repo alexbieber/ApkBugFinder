@@ -38,6 +38,7 @@ yarn-error.log*
 
 # local test artifacts
 /test-apks/
+*.apk
 
 # typescript
 *.tsbuildinfo

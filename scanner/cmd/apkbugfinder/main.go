@@ -15,11 +15,12 @@ import (
 
 func main() {
 	var (
-		serve   bool
-		addr    string
-		apkPath string
-		dirPath string
-		workDir string
+		serve         bool
+		addr          string
+		apkPath       string
+		dirPath       string
+		workDir       string
+		verifySecrets bool
 	)
 
 	flag.BoolVar(&serve, "serve", false, "Start HTTP API server")
@@ -27,10 +28,11 @@ func main() {
 	flag.StringVar(&apkPath, "p", "", "Path to single APK file")
 	flag.StringVar(&dirPath, "m", "", "Path to directory of APK files")
 	flag.StringVar(&workDir, "workdir", "", "Working directory for decompilation output")
+	flag.BoolVar(&verifySecrets, "verify-secrets", false, "Opt-in: read-only liveness checks on discovered secrets (makes network calls)")
 	flag.Parse()
 
 	if serve {
-		srv := &api.Server{Addr: addr, WorkDir: workDir}
+		srv := &api.Server{Addr: addr, WorkDir: workDir, AllowVerify: verifySecrets}
 		log.Printf("Apkbugfinder scanner API listening on %s", addr)
 		log.Printf("Tools required: jadx, d2j-dex2jar, grep")
 		if err := http.ListenAndServe(addr, srv.Handler()); err != nil {
@@ -45,7 +47,7 @@ func main() {
 	}
 
 	if apkPath != "" {
-		runScan(apkPath, workDir)
+		runScan(apkPath, workDir, verifySecrets)
 		return
 	}
 
@@ -58,7 +60,7 @@ func main() {
 			if e.IsDir() || filepath.Ext(e.Name()) != ".apk" {
 				continue
 			}
-			runScan(filepath.Join(dirPath, e.Name()), workDir)
+			runScan(filepath.Join(dirPath, e.Name()), workDir, verifySecrets)
 		}
 		return
 	}
@@ -73,14 +75,19 @@ Usage:
 Requirements: jadx, d2j-dex2jar, grep`)
 }
 
-func runScan(apkPath, workDir string) {
+func runScan(apkPath, workDir string, verifySecrets bool) {
 	fmt.Printf("[+] Scanning %s\n", apkPath)
-	result, err := engine.Scan(apkPath, engine.Options{WorkDir: workDir})
+	result, err := engine.Scan(apkPath, engine.Options{WorkDir: workDir, VerifySecrets: verifySecrets})
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("[+] Done: %d findings in %dms\n", result.Stats.Total, result.DurationMs)
+	fmt.Printf("[+] Done: %d findings (%d bounty, %d live secrets) in %dms\n",
+		result.Stats.Total, result.Stats.BountyEligible, result.Stats.LiveSecrets, result.DurationMs)
 	for _, f := range result.Findings {
 		fmt.Printf("  [%s] %s — %s (%s)\n", f.Severity, f.Title, f.MASVS, f.File)
+	}
+	if result.Recon != nil {
+		fmt.Printf("[+] Recon: %d endpoints, %d hosts, %d secrets\n",
+			len(result.Recon.Endpoints), len(result.Recon.Hosts), len(result.Recon.Secrets))
 	}
 }

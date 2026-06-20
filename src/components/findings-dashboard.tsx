@@ -3,6 +3,8 @@
 import { useMemo, useState } from "react";
 import type { Finding, ScanResult, Severity } from "@/lib/scanner/types";
 import { SeverityBadge } from "@/components/severity-badge";
+import { ConfidenceBadge, isActionable } from "@/components/confidence-badge";
+import { BountyBadge, isBountyFinding } from "@/components/bounty-badge";
 import { cn } from "@/lib/utils";
 import { ChevronDown, Search, Filter } from "lucide-react";
 
@@ -37,7 +39,11 @@ function FindingCard({ finding }: { finding: Finding }) {
       >
         <SeverityBadge severity={finding.severity} />
         <div className="min-w-0 flex-1">
-          <h4 className="font-medium text-zinc-100">{finding.title}</h4>
+          <div className="flex flex-wrap items-center gap-2">
+            <h4 className="font-medium text-zinc-100">{finding.title}</h4>
+            <ConfidenceBadge confidence={finding.confidence} />
+            <BountyBadge impact={finding.impact} eligible={finding.bountyEligible} />
+          </div>
           <p className="mt-1 text-sm text-zinc-400">{finding.description}</p>
           <div className="mt-2 flex flex-wrap gap-2">
             <span className="rounded bg-zinc-800 px-2 py-0.5 font-mono text-xs text-emerald-400">
@@ -65,6 +71,20 @@ function FindingCard({ finding }: { finding: Finding }) {
             <div className="mb-3">
               <p className="text-xs text-zinc-500">Location</p>
               <p className="font-mono text-sm text-zinc-300">{finding.file}</p>
+            </div>
+          )}
+          {finding.attackSurface && (
+            <div className="mb-3">
+              <p className="text-xs text-zinc-500">Attack surface</p>
+              <p className="font-mono text-sm text-zinc-300">{finding.attackSurface}</p>
+            </div>
+          )}
+          {finding.exploitHint && (
+            <div className="mb-3 rounded-lg border border-orange-500/20 bg-orange-500/5 p-3">
+              <p className="text-xs font-medium uppercase tracking-wide text-orange-400">
+                Bounty validation hint
+              </p>
+              <p className="mt-1 text-sm text-orange-100/90">{finding.exploitHint}</p>
             </div>
           )}
           {finding.evidence && (
@@ -100,6 +120,9 @@ function FindingCard({ finding }: { finding: Finding }) {
 export function FindingsDashboard({ result }: { result: ScanResult }) {
   const [search, setSearch] = useState("");
   const [severityFilter, setSeverityFilter] = useState<Severity | "all">("all");
+  const [actionableOnly, setActionableOnly] = useState(true);
+
+  const [bountyOnly, setBountyOnly] = useState(true);
 
   const filtered = useMemo(() => {
     return result.findings.filter((f) => {
@@ -109,22 +132,32 @@ export function FindingsDashboard({ result }: { result: ScanResult }) {
         f.masvs.toLowerCase().includes(search.toLowerCase()) ||
         f.category.toLowerCase().includes(search.toLowerCase());
       const matchesSeverity = severityFilter === "all" || f.severity === severityFilter;
-      return matchesSearch && matchesSeverity;
+      const matchesActionable =
+        !actionableOnly || isActionable(f.confidence, f.severity, f.id);
+      const matchesBounty = !bountyOnly || isBountyFinding(f);
+      return matchesSearch && matchesSeverity && matchesActionable && matchesBounty;
     });
-  }, [result.findings, search, severityFilter]);
+  }, [result.findings, search, severityFilter, actionableOnly, bountyOnly]);
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+        <StatCard
+          label="Bounty targets"
+          count={result.stats.bountyEligible ?? result.findings.filter((f) => isBountyFinding(f)).length}
+          color="text-orange-400"
+        />
+        <StatCard
+          label="Critical (9+)"
+          count={result.stats.bountyCritical ?? result.findings.filter((f) => f.bountyEligible && (f.impact ?? 0) >= 9).length}
+          color="text-red-400"
+        />
         <StatCard label="Total" count={result.stats.total} color="text-zinc-100" />
         <StatCard label="Critical" count={result.stats.critical} color="text-red-400" />
         <StatCard label="High" count={result.stats.high} color="text-orange-400" />
-        <StatCard label="Medium" count={result.stats.medium} color="text-yellow-400" />
-        <StatCard label="Low" count={result.stats.low} color="text-blue-400" />
-        <StatCard label="Info" count={result.stats.info} color="text-zinc-400" />
       </div>
 
-      <div className="flex flex-col gap-3 sm:flex-row">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
           <input
@@ -149,6 +182,24 @@ export function FindingsDashboard({ result }: { result: ScanResult }) {
               </option>
             ))}
           </select>
+          <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-orange-500/30 bg-orange-500/5 px-3 py-2 text-sm text-orange-200">
+            <input
+              type="checkbox"
+              checked={bountyOnly}
+              onChange={(e) => setBountyOnly(e.target.checked)}
+              className="rounded border-orange-600 bg-zinc-800 text-orange-500 focus:ring-orange-500/30"
+            />
+            Bounty hunt
+          </label>
+          <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-zinc-300">
+            <input
+              type="checkbox"
+              checked={actionableOnly}
+              onChange={(e) => setActionableOnly(e.target.checked)}
+              className="rounded border-zinc-600 bg-zinc-800 text-emerald-500 focus:ring-emerald-500/30"
+            />
+            Actionable only
+          </label>
         </div>
       </div>
 

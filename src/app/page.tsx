@@ -41,6 +41,7 @@ export default function HomePage() {
   const [progress, setProgress] = useState<ScanProgress | null>(null);
   const [history, setHistory] = useState<ScanResult[]>([]);
   const [health, setHealth] = useState<ScannerHealth | null>(null);
+  const [verifySecrets, setVerifySecrets] = useState(false);
 
   useEffect(() => {
     setHistory(getScanHistory());
@@ -57,7 +58,7 @@ export default function HomePage() {
         const scannerReady = health?.status === "ok";
 
         if (scannerReady) {
-          result = await scanApkViaServer(file, setProgress);
+          result = await scanApkViaServer(file, setProgress, verifySecrets);
         } else {
           setProgress({
             stage: "analyzing",
@@ -78,7 +79,7 @@ export default function HomePage() {
         setIsScanning(false);
       }
     },
-    [router, health],
+    [router, health, verifySecrets],
   );
 
   return (
@@ -102,6 +103,25 @@ export default function HomePage() {
 
       <div className="mx-auto max-w-2xl">
         <UploadZone onFileSelect={handleFileSelect} isScanning={isScanning} scannerReady={health?.status === "ok"} />
+        {health?.verifyAllowed && (
+          <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-900/40 p-4">
+            <input
+              type="checkbox"
+              checked={verifySecrets}
+              onChange={(e) => setVerifySecrets(e.target.checked)}
+              disabled={isScanning}
+              className="mt-0.5 h-4 w-4 accent-emerald-500"
+            />
+            <span className="text-sm">
+              <span className="font-medium text-zinc-200">Verify secrets (live)</span>
+              <span className="mt-0.5 block text-xs text-zinc-500">
+                Runs opt-in, read-only liveness checks on discovered API keys and tokens.
+                Makes outbound network requests to providers (Google, Stripe, GitHub, etc.).
+                Only enable on APKs you are authorized to test.
+              </span>
+            </span>
+          </label>
+        )}
         {progress && isScanning && (
           <div className="mt-6">
             <ScanProgressBar progress={progress} />

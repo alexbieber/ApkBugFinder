@@ -5,6 +5,7 @@ export interface ScannerHealth {
   engine: string;
   version: string;
   missing?: string[];
+  verifyAllowed?: boolean;
 }
 
 export async function checkScannerHealth(): Promise<ScannerHealth | null> {
@@ -20,11 +21,15 @@ export async function checkScannerHealth(): Promise<ScannerHealth | null> {
 export async function scanApkViaServer(
   file: File,
   onProgress?: (progress: ScanProgress) => void,
+  verifySecrets = false,
 ): Promise<ScanResult> {
   onProgress?.({ stage: "extracting", progress: 10, message: "Uploading APK to scanner…" });
 
   const form = new FormData();
   form.append("apk", file);
+  if (verifySecrets) {
+    form.append("verify", "true");
+  }
 
   onProgress?.({ stage: "analyzing", progress: 30, message: "Decompiling with JADX + dex2jar…" });
 

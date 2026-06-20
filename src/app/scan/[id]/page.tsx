@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { AppInfoPanel } from "@/components/app-info-panel";
 import { FindingsDashboard } from "@/components/findings-dashboard";
+import { ReconPanel } from "@/components/recon-panel";
 import { getScanById } from "@/lib/scanner";
 import type { ScanResult } from "@/lib/scanner/types";
 import { formatDate, formatDuration } from "@/lib/utils";
@@ -85,6 +86,7 @@ export default function ScanDetailPage() {
         </aside>
         <section>
           <FindingsDashboard result={result} />
+          {result.recon && <ReconPanel recon={result.recon} />}
         </section>
       </div>
     </div>
